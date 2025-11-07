@@ -1,5 +1,5 @@
 # Apache Airflow
-apache-airflow==2.6.2                 # Airflow versi terbaru (sesuaikan dengan kebutuhan)
+apache-airflow==3.1.1                 # Airflow versi terbaru (sesuaikan dengan kebutuhan)
 apache-airflow-providers-postgres==5.11.0   # Provider Postgres untuk Airflow
 
 # PostgreSQL dan SQLAlchemy
