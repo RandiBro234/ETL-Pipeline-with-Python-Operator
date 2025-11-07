@@ -1,24 +1,12 @@
 # ConnectUpsert/connect_postgres.py
-from __future__ import annotations
-import psycopg2
-from psycopg2.extensions import connection
+from airflow.providers.postgres.hooks.postgres import PostgresHook
 import os
 
-def get_postgres_connection() -> connection:
+def get_postgres_connection(pg_conn_id: str = "postgres_default"):
     """
-    Membuat koneksi ke PostgreSQL menggunakan environment variable.
-    Pastikan variabel berikut sudah diset:
-    - POSTGRES_HOST
-    - POSTGRES_PORT
-    - POSTGRES_DB
-    - POSTGRES_USER
-    - POSTGRES_PASSWORD
+    Menggunakan PostgresHook untuk mengelola koneksi ke PostgreSQL.
+    Menggunakan Airflow Connection yang sudah terdefinisi untuk menghindari hardcode kredensial.
     """
-    conn = psycopg2.connect(
-        host=os.getenv("POSTGRES_HOST", "localhost"),
-        port=os.getenv("POSTGRES_PORT", "5432"),
-        dbname=os.getenv("POSTGRES_DB", "weather_db"),
-        user=os.getenv("POSTGRES_USER", "postgres"),
-        password=os.getenv("POSTGRES_PASSWORD", "postgres")
-    )
-    return conn
+    # Menggunakan PostgresHook untuk mendapatkan koneksi
+    hook = PostgresHook(postgres_conn_id=pg_conn_id)
+    return hook.get_sqlalchemy_engine()  # Mengambil engine SQLAlchemy yang siap digunakan
